@@ -1,0 +1,17 @@
+---
+- hosts: webserver
+  become: yes
+  tasks:
+  - name: update and install git
+    apt:
+      name: git
+      update_cache: yes
+      state: present
+  - name: execute shell script
+    shell: docker pull sravan5432/goldep
+    args:
+      creates: /home/ansible/docker/test.txt
+  - name: run a container
+    shell: docker docker run -d -p 8080:8080 --name cont_goldep sravan5432/goldep
+    args:
+      creates: /home/ansible/docker/test1.txt
